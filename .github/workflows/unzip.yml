@@ -1,5 +1,6 @@
-name: unzip
-on: workflow_dispatch
+name: Unzip
+on:
+  workflow_dispatch:
 permissions:
   contents: write
 jobs:
@@ -7,12 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          unzip -q *.zip
-          cp -r flash-baileys/. .
-          rm -rf flash-baileys *.zip
-          git config user.name "dwhhhg8-code"
+      - name: Unzip
+        run: |
+          unzip -o flash-baileys.zip
+          rm flash-baileys.zip
+      - name: Commit
+        run: |
+          git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add -A
-          git commit -m "flash-baileys v2.0.0"
+          git commit -m "Unzip files" || echo "nothing to commit"
           git push
